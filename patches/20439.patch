@@ -1,0 +1,263 @@
+From 1850fd3203f171dba93e7bbdeaf2853731c8f820 Mon Sep 17 00:00:00 2001
+From: PhoebeHui <20694052+PhoebeHui@users.noreply.github.com>
+Date: Wed, 29 Sep 2021 19:51:04 -0700
+Subject: [PATCH 1/6] [vcpkg-cmake-config] fix up cmake_current_packages_dir
+
+---
+ ports/vcpkg-cmake-config/vcpkg.json                     | 2 +-
+ ports/vcpkg-cmake-config/vcpkg_cmake_config_fixup.cmake | 2 +-
+ versions/baseline.json                                  | 2 +-
+ versions/v-/vcpkg-cmake-config.json                     | 5 +++++
+ 4 files changed, 8 insertions(+), 3 deletions(-)
+
+diff --git a/ports/vcpkg-cmake-config/vcpkg.json b/ports/vcpkg-cmake-config/vcpkg.json
+index 749114aa4d2a..cec8835d9875 100644
+--- a/ports/vcpkg-cmake-config/vcpkg.json
++++ b/ports/vcpkg-cmake-config/vcpkg.json
+@@ -1,4 +1,4 @@
+ {
+   "name": "vcpkg-cmake-config",
+-  "version-date": "2021-09-27"
++  "version-date": "2021-09-29"
+ }
+diff --git a/ports/vcpkg-cmake-config/vcpkg_cmake_config_fixup.cmake b/ports/vcpkg-cmake-config/vcpkg_cmake_config_fixup.cmake
+index 7a7a6c833b68..854cf3054b5c 100644
+--- a/ports/vcpkg-cmake-config/vcpkg_cmake_config_fixup.cmake
++++ b/ports/vcpkg-cmake-config/vcpkg_cmake_config_fixup.cmake
+@@ -216,7 +216,7 @@ get_filename_component(_IMPORT_PREFIX "${_IMPORT_PREFIX}" PATH)]]
+ 
+         # Patch out any remaining absolute references
+         file(TO_CMAKE_PATH "${CURRENT_PACKAGES_DIR}" cmake_current_packages_dir)
+-        string(REPLACE "${cmake_current_packages_dir}" [[${_IMPORT_PREFIX}]] contents "${contents}")
++        string(REPLACE "${cmake_current_packages_dir}" "\${CMAKE_CURRENT_LIST_DIR}/../.." contents "${contents}")
+ 
+         file(WRITE "${main_cmake}" "${contents}")
+     endforeach()
+diff --git a/versions/baseline.json b/versions/baseline.json
+index 8c4ebc40d12a..46dc0ebef6ee 100644
+--- a/versions/baseline.json
++++ b/versions/baseline.json
+@@ -6865,7 +6865,7 @@
+       "port-version": 0
+     },
+     "vcpkg-cmake-config": {
+-      "baseline": "2021-09-27",
++      "baseline": "2021-09-29",
+       "port-version": 0
+     },
+     "vcpkg-gfortran": {
+diff --git a/versions/v-/vcpkg-cmake-config.json b/versions/v-/vcpkg-cmake-config.json
+index cff03bb75dca..8ac57aff5024 100644
+--- a/versions/v-/vcpkg-cmake-config.json
++++ b/versions/v-/vcpkg-cmake-config.json
+@@ -1,5 +1,10 @@
+ {
+   "versions": [
++    {
++      "git-tree": "6ef57ed7342c118f3be50c56a2233384c433591d",
++      "version-date": "2021-09-29",
++      "port-version": 0
++    },
+     {
+       "git-tree": "9ae99981abcd01b092344f85ef6e1de3c1f9856a",
+       "version-date": "2021-09-27",
+
+From da9e981a8b14c1de960fff7cd84bb6c20febfa29 Mon Sep 17 00:00:00 2001
+From: PhoebeHui <20694052+PhoebeHui@users.noreply.github.com>
+Date: Wed, 29 Sep 2021 20:35:32 -0700
+Subject: [PATCH 2/6] Small changes
+
+---
+ ports/vcpkg-cmake-config/vcpkg_cmake_config_fixup.cmake | 2 +-
+ versions/v-/vcpkg-cmake-config.json                     | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/ports/vcpkg-cmake-config/vcpkg_cmake_config_fixup.cmake b/ports/vcpkg-cmake-config/vcpkg_cmake_config_fixup.cmake
+index 854cf3054b5c..b3c3f4cb235b 100644
+--- a/ports/vcpkg-cmake-config/vcpkg_cmake_config_fixup.cmake
++++ b/ports/vcpkg-cmake-config/vcpkg_cmake_config_fixup.cmake
+@@ -216,7 +216,7 @@ get_filename_component(_IMPORT_PREFIX "${_IMPORT_PREFIX}" PATH)]]
+ 
+         # Patch out any remaining absolute references
+         file(TO_CMAKE_PATH "${CURRENT_PACKAGES_DIR}" cmake_current_packages_dir)
+-        string(REPLACE "${cmake_current_packages_dir}" "\${CMAKE_CURRENT_LIST_DIR}/../.." contents "${contents}")
++        string(REPLACE "${cmake_current_packages_dir}" [[${CMAKE_CURRENT_LIST_DIR}/../..]] contents "${contents}")
+ 
+         file(WRITE "${main_cmake}" "${contents}")
+     endforeach()
+diff --git a/versions/v-/vcpkg-cmake-config.json b/versions/v-/vcpkg-cmake-config.json
+index 8ac57aff5024..bd11173f5534 100644
+--- a/versions/v-/vcpkg-cmake-config.json
++++ b/versions/v-/vcpkg-cmake-config.json
+@@ -1,7 +1,7 @@
+ {
+   "versions": [
+     {
+-      "git-tree": "6ef57ed7342c118f3be50c56a2233384c433591d",
++      "git-tree": "dbb5aa546f9d670f6fff6d063ccea8e958480f2c",
+       "version-date": "2021-09-29",
+       "port-version": 0
+     },
+
+From 981066d770f9275bfe908556f70dbbe41f406b9a Mon Sep 17 00:00:00 2001
+From: PhoebeHui <20694052+PhoebeHui@users.noreply.github.com>
+Date: Mon, 18 Oct 2021 19:05:13 -0700
+Subject: [PATCH 3/6] Address the review suggestion
+
+---
+ .../vcpkg-cmake-config/vcpkg_cmake_config_fixup.cmake  | 10 +++++++++-
+ versions/v-/vcpkg-cmake-config.json                    |  2 +-
+ 2 files changed, 10 insertions(+), 2 deletions(-)
+
+diff --git a/ports/vcpkg-cmake-config/vcpkg_cmake_config_fixup.cmake b/ports/vcpkg-cmake-config/vcpkg_cmake_config_fixup.cmake
+index b3c3f4cb235b..ce112beda0ee 100644
+--- a/ports/vcpkg-cmake-config/vcpkg_cmake_config_fixup.cmake
++++ b/ports/vcpkg-cmake-config/vcpkg_cmake_config_fixup.cmake
+@@ -216,7 +216,15 @@ get_filename_component(_IMPORT_PREFIX "${_IMPORT_PREFIX}" PATH)]]
+ 
+         # Patch out any remaining absolute references
+         file(TO_CMAKE_PATH "${CURRENT_PACKAGES_DIR}" cmake_current_packages_dir)
+-        string(REPLACE "${cmake_current_packages_dir}" [[${CMAKE_CURRENT_LIST_DIR}/../..]] contents "${contents}")
++        if (contents MATCHES ".*${cmake_current_packages_dir}.*")
++            string(PREPEND contents
++[[
++get_filename_component(_IMPORT_PREFIX "${CMAKE_CURRENT_LIST_DIR}" PATH)
++get_filename_component(_IMPORT_PREFIX "${_IMPORT_PREFIX}" PATH)
++]]
++        )
++        string(REPLACE "${cmake_current_packages_dir}" [[${_IMPORT_PREFIX}]] contents "${contents}")
++        endif()
+ 
+         file(WRITE "${main_cmake}" "${contents}")
+     endforeach()
+diff --git a/versions/v-/vcpkg-cmake-config.json b/versions/v-/vcpkg-cmake-config.json
+index bd11173f5534..6b5d6782ff32 100644
+--- a/versions/v-/vcpkg-cmake-config.json
++++ b/versions/v-/vcpkg-cmake-config.json
+@@ -1,7 +1,7 @@
+ {
+   "versions": [
+     {
+-      "git-tree": "dbb5aa546f9d670f6fff6d063ccea8e958480f2c",
++      "git-tree": "34d05637b537f2a7b665f767123c17823bc796aa",
+       "version-date": "2021-09-29",
+       "port-version": 0
+     },
+
+From 32b14db542ee50fb581de96286ed4e186e45a913 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Jack=C2=B7Boos=C2=B7Yu?=
+ <47264268+JackBoosY@users.noreply.github.com>
+Date: Tue, 19 Oct 2021 10:15:29 +0800
+Subject: [PATCH 4/6] Update
+ ports/vcpkg-cmake-config/vcpkg_cmake_config_fixup.cmake
+
+---
+ ports/vcpkg-cmake-config/vcpkg_cmake_config_fixup.cmake | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/ports/vcpkg-cmake-config/vcpkg_cmake_config_fixup.cmake b/ports/vcpkg-cmake-config/vcpkg_cmake_config_fixup.cmake
+index ce112beda0ee..0fe2fe8fc3b2 100644
+--- a/ports/vcpkg-cmake-config/vcpkg_cmake_config_fixup.cmake
++++ b/ports/vcpkg-cmake-config/vcpkg_cmake_config_fixup.cmake
+@@ -223,7 +223,7 @@ get_filename_component(_IMPORT_PREFIX "${CMAKE_CURRENT_LIST_DIR}" PATH)
+ get_filename_component(_IMPORT_PREFIX "${_IMPORT_PREFIX}" PATH)
+ ]]
+         )
+-        string(REPLACE "${cmake_current_packages_dir}" [[${_IMPORT_PREFIX}]] contents "${contents}")
++            string(REPLACE "${cmake_current_packages_dir}" [[${_IMPORT_PREFIX}]] contents "${contents}")
+         endif()
+ 
+         file(WRITE "${main_cmake}" "${contents}")
+
+From e8b7136d43e0e3340e6749737cf2c8a6af66eb0d Mon Sep 17 00:00:00 2001
+From: PhoebeHui <20694052+PhoebeHui@users.noreply.github.com>
+Date: Tue, 19 Oct 2021 19:11:57 -0700
+Subject: [PATCH 5/6] Update the baseline version
+
+---
+ versions/v-/vcpkg-cmake-config.json | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/versions/v-/vcpkg-cmake-config.json b/versions/v-/vcpkg-cmake-config.json
+index 6b5d6782ff32..59248ccaa390 100644
+--- a/versions/v-/vcpkg-cmake-config.json
++++ b/versions/v-/vcpkg-cmake-config.json
+@@ -1,7 +1,7 @@
+ {
+   "versions": [
+     {
+-      "git-tree": "34d05637b537f2a7b665f767123c17823bc796aa",
++      "git-tree": "8a029a9c4c967f29abe2f3dd13f8bc47a62b396f",
+       "version-date": "2021-09-29",
+       "port-version": 0
+     },
+
+From dbac14188699c5f8c40eaceb8ae055bd6cf3ee6e Mon Sep 17 00:00:00 2001
+From: PhoebeHui <20694052+PhoebeHui@users.noreply.github.com>
+Date: Fri, 5 Nov 2021 02:38:19 -0700
+Subject: [PATCH 6/6] Address the review suggestions
+
+---
+ ports/vcpkg-cmake-config/vcpkg.json                     | 2 +-
+ ports/vcpkg-cmake-config/vcpkg_cmake_config_fixup.cmake | 6 +++---
+ versions/baseline.json                                  | 2 +-
+ versions/v-/vcpkg-cmake-config.json                     | 4 ++--
+ 4 files changed, 7 insertions(+), 7 deletions(-)
+
+diff --git a/ports/vcpkg-cmake-config/vcpkg.json b/ports/vcpkg-cmake-config/vcpkg.json
+index cec8835d9875..f8cfd3a3178b 100644
+--- a/ports/vcpkg-cmake-config/vcpkg.json
++++ b/ports/vcpkg-cmake-config/vcpkg.json
+@@ -1,4 +1,4 @@
+ {
+   "name": "vcpkg-cmake-config",
+-  "version-date": "2021-09-29"
++  "version-date": "2021-11-05"
+ }
+diff --git a/ports/vcpkg-cmake-config/vcpkg_cmake_config_fixup.cmake b/ports/vcpkg-cmake-config/vcpkg_cmake_config_fixup.cmake
+index 0fe2fe8fc3b2..12a329ac18b9 100644
+--- a/ports/vcpkg-cmake-config/vcpkg_cmake_config_fixup.cmake
++++ b/ports/vcpkg-cmake-config/vcpkg_cmake_config_fixup.cmake
+@@ -219,11 +219,11 @@ get_filename_component(_IMPORT_PREFIX "${_IMPORT_PREFIX}" PATH)]]
+         if (contents MATCHES ".*${cmake_current_packages_dir}.*")
+             string(PREPEND contents
+ [[
+-get_filename_component(_IMPORT_PREFIX "${CMAKE_CURRENT_LIST_DIR}" PATH)
+-get_filename_component(_IMPORT_PREFIX "${_IMPORT_PREFIX}" PATH)
++get_filename_component(_IMPORT_PACKAGE_PREFIX "${CMAKE_CURRENT_LIST_DIR}" PATH)
++get_filename_component(_IMPORT_PACKAGE_PREFIX "${_IMPORT_PACKAGE_PREFIX}" PATH)
+ ]]
+         )
+-            string(REPLACE "${cmake_current_packages_dir}" [[${_IMPORT_PREFIX}]] contents "${contents}")
++            string(REPLACE "${cmake_current_packages_dir}" [[${_IMPORT_PACKAGE_PREFIX}]] contents "${contents}")
+         endif()
+ 
+         file(WRITE "${main_cmake}" "${contents}")
+diff --git a/versions/baseline.json b/versions/baseline.json
+index 18bcb9bfb0cb..fb50c61b485f 100644
+--- a/versions/baseline.json
++++ b/versions/baseline.json
+@@ -6993,7 +6993,7 @@
+       "port-version": 0
+     },
+     "vcpkg-cmake-config": {
+-      "baseline": "2021-09-29",
++      "baseline": "2021-11-05",
+       "port-version": 0
+     },
+     "vcpkg-gfortran": {
+diff --git a/versions/v-/vcpkg-cmake-config.json b/versions/v-/vcpkg-cmake-config.json
+index 59248ccaa390..450c30409bc8 100644
+--- a/versions/v-/vcpkg-cmake-config.json
++++ b/versions/v-/vcpkg-cmake-config.json
+@@ -1,8 +1,8 @@
+ {
+   "versions": [
+     {
+-      "git-tree": "8a029a9c4c967f29abe2f3dd13f8bc47a62b396f",
+-      "version-date": "2021-09-29",
++      "git-tree": "66d46c8862490290d423fbeb3ce97b8b5ab68242",
++      "version-date": "2021-11-05",
+       "port-version": 0
+     },
+     {
