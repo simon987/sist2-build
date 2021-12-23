@@ -1,5 +1,5 @@
---- /vcpkg/ports/libmupdf/vcpkg.json	2021-09-22 09:11:22.598136284 -0400
-+++ /vcpkg/ports/libmupdf/vcpkg.json_ 	2021-11-07 10:14:38.039574071 -0500
+--- a/ports/libmupdf/vcpkg.json	2021-09-22 09:11:22.598136284 -0400
++++ b/ports/libmupdf/vcpkg.json 	2021-11-07 10:14:38.039574071 -0500
 @@ -5,7 +5,13 @@
    "homepage": "https://github.com/ArtifexSoftware/mupdf",
    "supports": "!osx",

@@ -22,8 +22,9 @@ RUN wget https://github.com/Kitware/CMake/releases/download/v3.20.2/cmake-3.20.2
 RUN git clone https://github.com/microsoft/vcpkg.git && cd vcpkg && git checkout 897ff93
 
 ADD patches/* /
-RUN patch -p0 < mupdf-curl-dep.patch
-RUN patch -p0 < mongoose-master.patch
+RUN cd /vcpkg/; patch -p1 < ../mupdf-curl-dep.patch
+RUN cd /vcpkg/; patch -p1 < ../mongoose-master.patch
+RUN cd /vcpkg/; patch -p1 < ../libraw.patch
 
 RUN cd /vcpkg/ && ./bootstrap-vcpkg.sh
 
