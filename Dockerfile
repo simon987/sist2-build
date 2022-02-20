@@ -24,6 +24,7 @@ RUN git clone https://github.com/microsoft/vcpkg.git && cd vcpkg && git checkout
 ADD patches/* /
 RUN cd /vcpkg/; patch -p1 < ../mupdf-curl-dep.patch
 RUN cd /vcpkg/; patch -p1 < ../mongoose-master.patch
+RUN cd /vcpkg/; patch -p1 < ../mongoose-nolog.patch
 RUN cd /vcpkg/; patch -p1 < ../libraw.patch
 
 RUN cd /vcpkg/ && ./bootstrap-vcpkg.sh
