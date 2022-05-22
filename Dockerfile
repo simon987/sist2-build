@@ -10,7 +10,7 @@ RUN apt install -y pkg-config python3 yasm ragel \
         automake autotools-dev wget libtool libssl-dev \
         curl zip unzip tar xorg-dev libglu1-mesa-dev libxcursor-dev \
         libxml2-dev libxinerama-dev gettext bison \
-        nasm git meson\
+        nasm git meson libmagic-dev \
         && apt clean
 
 # cmake
@@ -34,7 +34,7 @@ RUN ./vcpkg/vcpkg install \
         && rm -rf /root/.cache/vcpkg /vcpkg/downloads /vcpkg/buildtrees /vcpkg/downloads
 
 RUN ./vcpkg/vcpkg install \
-        lmdb cjson glib brotli libarchive[core,bzip2,libxml2,lz4,lzma,lzo] pthread tesseract libxml2 libmupdf gtest mongoose libmagic libraw jasper lcms gumbo \
+        lmdb cjson glib brotli libarchive[core,bzip2,libxml2,lz4,lzma,lzo] pthread tesseract libxml2 libmupdf gtest mongoose libraw jasper lcms gumbo \
         && rm -rf /root/.cache/vcpkg /vcpkg/downloads /vcpkg/buildtrees /vcpkg/downloads
 
 RUN mkdir -p /debug/lib/ && mkdir -p /include && \
